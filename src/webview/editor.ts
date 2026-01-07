@@ -25,6 +25,7 @@ import { GitHubAlerts } from './extensions/githubAlerts';
 import { ImageEnterSpacing } from './extensions/imageEnterSpacing';
 import { MarkdownParagraph } from './extensions/markdownParagraph';
 import { OrderedListMarkdownFix } from './extensions/orderedListMarkdownFix';
+import { ConfigureMarkedForFilenameBlocking } from './extensions/configureMarkedForFilenameBlocking';
 import { createFormattingToolbar, createTableMenu, updateToolbarStates } from './BubbleMenuView';
 import { getEditorMarkdownForSync } from './utils/markdownSerialization';
 import {
@@ -397,6 +398,9 @@ function initializeEditor(initialContent: string) {
           },
         }),
         MarkdownParagraph, // Custom paragraph with empty-paragraph filtering in renderMarkdown
+        // CRITICAL: Configure marked BEFORE Markdown extension initializes
+        // This ensures marked is configured before any markdown parsing happens
+        ConfigureMarkedForFilenameBlocking,
         CodeBlockLowlight.configure({
           lowlight,
           HTMLAttributes: {
@@ -410,6 +414,8 @@ function initializeEditor(initialContent: string) {
           markedOptions: {
             gfm: true, // GitHub Flavored Markdown for tables, task lists
             breaks: true, // Preserve single newlines as <br>
+            // @ts-expect-error - linkify option exists but may not be in type definitions
+            linkify: false, // Disable auto-linking to prevent .md filenames from becoming links
           },
         }),
         TableKit.configure({
@@ -431,6 +437,8 @@ function initializeEditor(initialContent: string) {
         ImageEnterSpacing, // Handle Enter key around images and gap cursor
         Link.configure({
           openOnClick: false,
+          autolink: false, // Disabled to prevent auto-linking of .md extensions and other false positives
+          protocols: [], // Disable protocol detection - prevents auto-linking
           HTMLAttributes: {
             class: 'markdown-link',
           },

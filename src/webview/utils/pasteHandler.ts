@@ -116,7 +116,7 @@ export function htmlToMarkdown(html: string): string {
 const md = new MarkdownIt({
   html: true,
   breaks: true, // Preserve single newlines as <br> for plain text blocks
-  linkify: true,
+  linkify: false, // Disabled to prevent auto-linking of .md extensions and other false positives
 });
 
 /**

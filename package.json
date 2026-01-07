@@ -172,7 +172,7 @@
     "package:release": "vsce package",
     "publish:release": "vsce publish",
     "publish:ovsx:release": "npm run build:release && ovsx publish",
-    "install-hooks": "./scripts/install-git-hooks.sh"
+    "install-hooks": "bash ./scripts/install-git-hooks.sh"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
@@ -212,6 +212,7 @@
     "katex": "^0.16.9",
     "lowlight": "^2.9.0",
     "markdown-it": "^14.0.0",
+    "marked": "^17.0.1",
     "mermaid": "^10.6.1",
     "turndown": "^7.1.2"
   }
