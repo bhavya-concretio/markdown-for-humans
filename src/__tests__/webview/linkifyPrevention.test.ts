@@ -90,7 +90,7 @@ describe('Linkify prevention', () => {
       const json = editor.getJSON();
       expect(JSON.stringify(json)).not.toContain('"type":"link"');
       expect(hasLinkInJSON(json)).toBe(false);
-      
+
       // Verify the text is preserved as plain text
       expect(editor.getText()).toBe('ss.md');
     } finally {
@@ -135,7 +135,7 @@ describe('Linkify prevention', () => {
       const json = editor.getJSON();
       expect(hasLinkInJSON(json)).toBe(true);
       expect(JSON.stringify(json)).toContain('"type":"link"');
-      
+
       // Verify link content is correct
       expect(editor.getHTML()).toContain('<a');
       expect(editor.getHTML()).toContain('README.md');
@@ -162,7 +162,9 @@ describe('Linkify prevention', () => {
     const editor = createTestEditor();
 
     try {
-      editor.commands.setContent('Check out the file ss.md for details', { contentType: 'markdown' });
+      editor.commands.setContent('Check out the file ss.md for details', {
+        contentType: 'markdown',
+      });
 
       const json = editor.getJSON();
       expect(hasLinkInJSON(json)).toBe(false);
